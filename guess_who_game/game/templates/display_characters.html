@@ -1,0 +1,13 @@
+<!-- display_characters.html -->
+
+<h1>Guess Who - Choose Your Character</h1>
+<form action="/game/guess/{{ game_session_id }}/" method="post">
+  {% csrf_token %}
+  {% for character in characters %}
+    <label>
+      <input type="radio" name="character_id" value="{{ character.id }}">
+      {{ character.name }}
+    </label><br>
+  {% endfor %}
+  <button type="submit">Submit Guess</button>
+</form>
