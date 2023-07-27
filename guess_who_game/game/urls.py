@@ -1,16 +1,13 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from django.contrib.auth import views 
+from django.contrib import admin
 
 urlpatterns = [
-    # URL pattern to start a new game session
-    path('game/new/', views.new_game_session, name='new_game_session'),
-
-    # URL pattern to join an existing game session
-    path('game/join/<int:game_session_id>/', views.join_game_session, name='join_game_session'),
-
-    # URL pattern to display characters to players for guessing
-    path('game/display/<int:game_session_id>/', views.display_characters, name='display_characters'),
-
-    # URL pattern to handle player guesses
-    path('game/guess/<int:game_session_id>/', views.handle_guess, name='handle_guess'),
+    path('admin/', admin.site.urls),
+    path('game/', include('game.urls')),
+    path('', views.new_game_session, name='new_game_session'),
+    path('game/<int:game_session_id>/', views.join_game_session, name='game_lobby'),
+    path('game/<int:game_session_id>/characters/', views.display_characters, name='display_characters'),
+    path('game/<int:game_session_id>/guess/', views.handle_guess, name='handle_guess'),
+    path('game/<str:game_session_id>/', include('game.routing')),
 ]

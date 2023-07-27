@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qw=%p4$dqb9*lx5%=c3im8vo44ow7qxr048@$0f6mf--egve@='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['194.223.187.59']
 
 
 # Application definition
@@ -37,7 +37,34 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 ]
+
+
+# Add ASGI_APPLICATION
+ASGI_APPLICATION = 'guess_who_game.game.routing.application'
+
+# Use the ChannelsLayer as the default Django Channels backend
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Use 'channels.layers.RedisChannelLayer' for production with Redis
+    },
+}
+
+# Allow WebSockets to handle all HTTP methods
+# This is required for Django Channels to handle WebSocket connections
+CHANNELS_WS_PROTOCOLS = ["http", "https", "websocket"]
+
+# If you're using Redis as the Channels backend, add the Redis settings here
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,7 +142,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/' 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

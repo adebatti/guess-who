@@ -1,4 +1,3 @@
-from django.db import models
 
 # models.py
 
@@ -23,11 +22,11 @@ class Player(models.Model):
 
 # Define the GameSession model to represent a session where players play the Guess Who game
 class GameSession(models.Model):
-    players = models.ManyToManyField(Player)                  # Players participating in the game session (many-to-many relationship)
-    characters = models.ManyToManyField(Character)            # Characters available for selection in the game (many-to-many relationship)
+    access_code = models.CharField(max_length=8, unique=True)   # Unique access code for each game session
+    players = models.ManyToManyField(Player)                    # Players participating in the game session (many-to-many relationship)
+    characters = models.ManyToManyField(Character)              # Characters available for selection in the game (many-to-many relationship)
     active_character = models.ForeignKey(Character, on_delete=models.SET_NULL, null=True, blank=True)  # Currently selected character for guessing
-    is_active = models.BooleanField(default=True)             # Flag to indicate if the game session is active or completed
+    is_active = models.BooleanField(default=True)               # Flag to indicate if the game session is active or completed
 
     def __str__(self):
         return f"Game Session #{self.id}"
-

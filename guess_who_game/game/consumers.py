@@ -5,8 +5,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.game_session_id = self.scope['url_route']['kwargs']['game_session_id']
-        self.game_group_name = f'game_{self.game_session_id}'
+        self.access_code = self.scope['url_route']['kwargs']['access_code']
+        self.game_group_name = f'game_{self.access_code}'
 
         # Add the user to the game group
         await self.channel_layer.group_add(
